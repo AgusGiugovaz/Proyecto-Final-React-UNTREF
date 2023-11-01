@@ -1,6 +1,11 @@
 import { useState, useEffect } from "react";
 import React from "react";
 import '../estilos-css/Formulario.css'
+import { Link } from 'react-router-dom';
+import swal from "sweetalert";
+import Cotizador from "./Cotizador";
+import Boton from "./Boton";
+import Historial from "./Historial";
 
 
 function Formulario() {
@@ -8,6 +13,7 @@ function Formulario() {
     const [ubicaciones, setUbicaciones] = useState([]);
     const [seleccionPropiedad, setSeleccionPropiedad] = useState('');
     const [seleccionUbicacion, setSeleccionUbicacion] = useState('');
+    const [metros2, setMetros2] = useState(20);
   
     useEffect(() => {
       fetch('../src/data/datos-cotizacion.json')
@@ -23,49 +29,100 @@ function Formulario() {
           console.error('Error al obtener los datos:', error);
         });
     }, []);
+
+    const handlePropiedadChange = (event) => {
+      setSeleccionPropiedad(event.target.value);
+    };
+  
+  const handleUbicacionChange = (event) => {
+      setSeleccionUbicacion(event.target.value);
+  };
+
+
+
+    
+  
+  const handleCotizar = (e) => {
+      e.preventDefault();
+      // Comprueba si se ha seleccionado algún valor
+      if (seleccionPropiedad && seleccionUbicacion) {
+          // Obtener el costo por metro cuadrado de alguna manera (puedes pasarlo como prop o cargarlo desde una fuente de datos)
+          const costoM2 = 35.86;
+          const metros2 = document.querySelector("#metros2").value;
+          console.log(metros2);
+
+          const cotizarPoliza = () => {
+              const resultado = costoM2 * seleccionPropiedad * seleccionUbicacion * metros2;
+              return resultado.toFixed(2); // Redondear el resultado a dos decimales
+            };
+
+            const cotizador = new Cotizador(costoM2, seleccionPropiedad, seleccionUbicacion, metros2);
+            const precioPoliza = cotizarPoliza();
+
+            // Actualiza el valor en el elemento HTML
+            const valorPolizaElement = document.getElementById("valorPoliza");
+            valorPolizaElement.innerText = precioPoliza;
+
+          // Realiza la lógica para cotizar
+          swal({
+            title: '', 
+            text: 'Cotización realizada con éxito.',
+            icon: 'success',
+            timer: 2500,
+            buttons:['']});
+        } else {
+          swal({
+            title: '', 
+            text: 'Debes completar todos los datos en pantalla.',
+            icon: 'warning',
+            timer: 3000,
+            buttons:['']});
+        }
+      };
   
     return (
-      <div className='contenedor-cotizador'>
-        <h2 className='titulo-contenedor-cotizador'>Completa los datos solicitados</h2>
+      <>
+    
+      <div className="historial">
+      <Link to={"/historial"}>
+          <span title="Ver Historial">📋</span>
+      </Link>
+      </div>
+      <h1 className='titulo'>Seguros del hogar 🏡</h1> 
+      <form className='form-cotizador'>
+        <h2 className='titulo-contenedor-cotizador'>Completa los datos solicitados</h2> <br />
   
         <label htmlFor="propiedad">Selecciona el tipo de propiedad</label> <br />
-        <select
-          id="propiedad"
-          value={seleccionPropiedad}
-          onChange={(e) => setSeleccionPropiedad(e.target.value)}
-        >
-          <option value="">Seleccione una opción</option>
-          {propiedades.map((opcion) => (
-            <option key={opcion.tipo} value={opcion.factor}>
-              {opcion.tipo}
-            </option>
-          ))}
-        </select>
-        <br />
-  
-        <label htmlFor="ubicacion">Selecciona su ubicación</label> <br />
-        <select
-          id="ubicacion"
-          value={seleccionUbicacion}
-          onChange={(e) => setSeleccionUbicacion(e.target.value)}
-        >
-          <option value="">Seleccione una opción</option>
-          {ubicaciones.map((opcion) => (
-            <option key={opcion.tipo} value={opcion.factor}>
-              {opcion.tipo}
-            </option>
-          ))}
-        </select>
-        <br />
-        <label htmlFor="metros2">Ingresa los Metros cuadrados</label> <br />
-        <input type="number" id="metros2" defaultValue="20" min="20" max="500" required></input> <br />
+                <select id="propiedad" value={seleccionPropiedad} onChange={handlePropiedadChange}>
+                    <option value="">...</option>
+                    {propiedades.map((opcion) => (
+                        <option key={opcion.tipo} value={opcion.factor}>
+                        {opcion.tipo}
+                        </option>
+                    ))}
+                </select> <br />
+                <label htmlFor="ubicacion">Selecciona su ubicación</label> <br />
+                <select id="ubicacion" value={seleccionUbicacion} onChange={handleUbicacionChange}>
+                    <option value="">...</option>
+                    {ubicaciones.map((opcion) => (
+                        <option key={opcion.tipo} value={opcion.factor}>
+                            {opcion.tipo}
+                        </option>
+                    ))}
+                </select> <br />
+                <label htmlFor="metros2">Ingresa los Metros cuadrados:</label> <br />
+                <input type="number" id="metros2" defaultValue="20" min="20" max="500" required></input> <br />
+                
+                    <Boton onClick={handleCotizar} />
+                
+                
+                    <p className="importe">Precio estimado: $ <span id="valorPoliza">0.00</span><span className="guardar ocultar" title="Guardar en historial">💾</span></p>
+                
+            </form>
+            </>
+    )
+}
 
-        <button className='boton-cotizar'>COTIZAR</button>
 
-        <p>Precio estimado: $ </p>
-
-      </div>
-    );
-  }
   
   export default Formulario;

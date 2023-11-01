@@ -1,4 +1,8 @@
 import './App.css';
+import {BrowserRouter, Route, Routes} from "react-router-dom";
+import Historial from './componentes/Historial';
+//import useLocalStorage from './hooks/useLocalStorage';
+//import TablaContext from "./context/TablaContext";
 import Formulario from './componentes/Formulario';
 
 
@@ -8,12 +12,16 @@ function App () {
  return (
 
     <div className='App'>
-        <h1 className='titulo'>Seguros del hogar 🏡</h1> 
-        <Formulario /> 
+            <BrowserRouter> 
+            <Routes>
+                    <Route path="/" element={<Formulario />}/>
+                    <Route path="/historial" element={<Historial />}/>
+                </Routes>
+            </BrowserRouter>
+
+     </div>
+    );
         
-    </div>
-    
- );
 }
 
 export default App

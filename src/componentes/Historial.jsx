@@ -1,43 +1,43 @@
-import React, { useEffect, useState } from 'react';
+import { Link } from 'react-router-dom';
+import React, {useEffect, useState} from 'react';
+//import useTablaContext from '../hooks/useTablaContext';
+import '../index.css';
 
-function Historial () {
-  const [historialConsultas, setHistorialConsultas] = useState([]);
+const Historial = () => {
+    //let { tabla } = useTablaContext();
 
-  useEffect(() => {
-    const historialGuardado = localStorage.getItem('historialConsultas');
-    if (historialGuardado) {
-      const historialJSON = JSON.parse(historialGuardado);
-      setHistorialConsultas(historialJSON);
-    }
-  }, []);
+    return(
+        <div>
+            <h1 className="ver-historial">Ver Historial 📋</h1>
+            <section className=" center cotizadorForm">
+                <table>
+                    <thead>
+                        <tr>
+                            <th>Fecha de cotización</th>
+                            <th>Propiedad</th>
+                            <th>Ubicación</th>
+                            <th>Metros cuadrados</th>
+                            <th>Póliza mensual</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr>
+                            <td>Aquí</td>
+                            <td>verás</td>
+                            <td>las</td>
+                            <td>cotizaciones</td>
+                            <td>realizadas</td>
+                        </tr>
+                    </tbody>
+                </table>
+                <section className="center separador">
+                    <Link to={"/"}>
+                        <button className="button button-outline">Volver al Cotizador</button>
+                    </Link>
+                </section>
+            </section>
+        </div>
+    )
+}
 
-  return (
-    <div>
-      <h2>Historial de Consultas</h2>
-      <table>
-        <thead>
-          <tr>
-            <th>Fecha y Hora</th>
-            <th>Tipo de Propiedad</th>
-            <th>Ubicación</th>
-            <th>Metros Cuadrados</th>
-            <th>Precio Estimado</th>
-          </tr>
-        </thead>
-        <tbody>
-          {historialConsultas.map((consulta, index) => (
-            <tr key={index}>
-              <td>{consulta.fechaHora}</td>
-              <td>{consulta.tipoPropiedad}</td>
-              <td>{consulta.ubicacion}</td>
-              <td>{consulta.metrosCuadrados}</td>
-              <td>{consulta.precioEstimado}</td>
-            </tr>
-          ))}
-        </tbody>
-      </table>
-    </div>
-  );
-};
-  
-  export default Historial;
+export default Historial;
