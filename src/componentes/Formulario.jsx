@@ -1,11 +1,14 @@
 import { useState, useEffect } from "react";
-import React from "react";
 import '../estilos-css/Formulario.css'
 import { Link } from 'react-router-dom';
+//import {FaClipboardList} from "react-icons/fa6"
+import useHistorialContext from "../hooks/useHistorialContext";
 import swal from "sweetalert";
-import Cotizador from "./Cotizador";
-import Boton from "./Boton";
-import Historial from "./Historial";
+//import Cotizador from "./Cotizador";
+import BotonCotizar from './BotonCotizar'
+//import BotonGuardar from "./BotonGuardar";
+//import Historial from "./Historial";
+
 
 
 function Formulario() {
@@ -14,6 +17,9 @@ function Formulario() {
     const [seleccionPropiedad, setSeleccionPropiedad] = useState('');
     const [seleccionUbicacion, setSeleccionUbicacion] = useState('');
     const [metros2, setMetros2] = useState(20);
+    const [guardarVisible, setGuardarVisible] = useState(false);
+
+    const {historial, setHistorial} = useHistorialContext();
   
     useEffect(() => {
       fetch('../src/data/datos-cotizacion.json')
@@ -37,31 +43,31 @@ function Formulario() {
   const handleUbicacionChange = (event) => {
       setSeleccionUbicacion(event.target.value);
   };
+  const metros2Change = (event) => {
+    setMetros2(event.target.value);
+}
 
-
-
-    
-  
   const handleCotizar = (e) => {
       e.preventDefault();
       // Comprueba si se ha seleccionado algún valor
       if (seleccionPropiedad && seleccionUbicacion) {
-          // Obtener el costo por metro cuadrado de alguna manera (puedes pasarlo como prop o cargarlo desde una fuente de datos)
+          
           const costoM2 = 35.86;
           const metros2 = document.querySelector("#metros2").value;
-          console.log(metros2);
 
           const cotizarPoliza = () => {
               const resultado = costoM2 * seleccionPropiedad * seleccionUbicacion * metros2;
               return resultado.toFixed(2); // Redondear el resultado a dos decimales
             };
 
-            const cotizador = new Cotizador(costoM2, seleccionPropiedad, seleccionUbicacion, metros2);
+            //const cotizador = new Cotizador(costoM2, seleccionPropiedad, seleccionUbicacion, metros2);
             const precioPoliza = cotizarPoliza();
 
             // Actualiza el valor en el elemento HTML
             const valorPolizaElement = document.getElementById("valorPoliza");
             valorPolizaElement.innerText = precioPoliza;
+
+            setGuardarVisible(true); // Mostramos el span 💾
 
           // Realiza la lógica para cotizar
           swal({
@@ -79,10 +85,29 @@ function Formulario() {
             buttons:['']});
         }
       };
-  
+
+
+      const guardar = () => {
+        const costoM2 = 35.86;
+       
+        const cotizarPoliza = () => {
+          const resultado = costoM2 * seleccionPropiedad * seleccionUbicacion * metros2;
+          return resultado.toFixed(2); // Redondear el resultado a dos decimales
+        };
+      
+        const nuevaPoliza = {};
+        nuevaPoliza["fecha"] = new Date().toLocaleString();
+        nuevaPoliza["propiedad"] = seleccionPropiedad//tipoPropiedad;
+        nuevaPoliza["ubicacion"] = seleccionUbicacion;
+        nuevaPoliza["metros2"] = metros2;
+        nuevaPoliza["valor"] = cotizarPoliza(); 
+      
+        setHistorial([...historial, nuevaPoliza]);
+      };
+
     return (
-      <>
     
+      <>
       <div className="historial">
       <Link to={"/historial"}>
           <span title="Ver Historial">📋</span>
@@ -113,16 +138,13 @@ function Formulario() {
                 <label htmlFor="metros2">Ingresa los Metros cuadrados:</label> <br />
                 <input type="number" id="metros2" defaultValue="20" min="20" max="500" required></input> <br />
                 
-                    <Boton onClick={handleCotizar} />
+                    <BotonCotizar onClick={handleCotizar} />
                 
-                
-                    <p className="importe">Precio estimado: $ <span id="valorPoliza">0.00</span><span className="guardar ocultar" title="Guardar en historial">💾</span></p>
+                    <p className="importe">Precio estimado: $ <span id="valorPoliza">0.00</span>{guardarVisible && <span onClick={guardar} className="guardar" title="Guardar en historial">💾</span>}</p>
                 
             </form>
-            </>
+           </>
     )
 }
 
-
-  
   export default Formulario;

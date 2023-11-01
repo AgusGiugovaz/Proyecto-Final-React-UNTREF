@@ -1,43 +1,46 @@
+import React from 'react';
 import { Link } from 'react-router-dom';
-import React, {useEffect, useState} from 'react';
-//import useTablaContext from '../hooks/useTablaContext';
-import '../index.css';
+import useHistorialContext from '../hooks/useHistorialContext';
+import '../estilos-css/Historial.css'
+
 
 const Historial = () => {
-    //let { tabla } = useTablaContext();
+    const { historial } = useHistorialContext();
 
-    return(
+    return (
         <div>
-            <h1 className="ver-historial">Ver Historial 📋</h1>
-            <section className=" center cotizadorForm">
-                <table>
-                    <thead>
-                        <tr>
-                            <th>Fecha de cotización</th>
-                            <th>Propiedad</th>
-                            <th>Ubicación</th>
-                            <th>Metros cuadrados</th>
-                            <th>Póliza mensual</th>
+            <h1 className="center historial-consultas">Historial de Cotizaciones 📋</h1>
+            <div class="center div-cotizador">
+             <table>
+                <thead>
+                    <tr>
+                        <th>Fecha de cotización</th>
+                        <th>Tipo de Propiedad</th>
+                        <th>Ubicación</th>
+                        <th>Metros cuadrados</th>
+                        <th>Precio de la Póliza</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    {historial.map((cotizacion, index) => (
+                        <tr key={index}>
+                            <td>{cotizacion.fecha}</td>
+                            <td>{cotizacion.propiedad}</td>
+                            <td>{cotizacion.ubicacion}</td>
+                            <td>{cotizacion.metros2}</td>
+                            <td>{cotizacion.valor}</td>
                         </tr>
-                    </thead>
-                    <tbody>
-                        <tr>
-                            <td>Aquí</td>
-                            <td>verás</td>
-                            <td>las</td>
-                            <td>cotizaciones</td>
-                            <td>realizadas</td>
-                        </tr>
-                    </tbody>
-                </table>
-                <section className="center separador">
-                    <Link to={"/"}>
-                        <button className="button button-outline">Volver al Cotizador</button>
-                    </Link>
-                </section>
-            </section>
+                    ))}
+                </tbody>
+            </table>
+            <div className="center separador">
+                <Link to={"/"}>
+                    <button className="button button-outline">Volver al Cotizador</button>
+                </Link>
+            </div>
+          </div>
         </div>
-    )
+    );
 }
 
 export default Historial;

@@ -12,4 +12,8 @@
     border-radius: 0.7rem;
 }
 
+select, input {
+    min-width: 50% !important;
+    width: 70% !important;
+}
 
