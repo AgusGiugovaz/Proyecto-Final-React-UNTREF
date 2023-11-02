@@ -15,5 +15,31 @@
 select, input {
     min-width: 50% !important;
     width: 70% !important;
+    height: 2.5rem !important;
+    font-size: medium;
 }
 
+.guardar {
+    margin-left: 20px;
+    font-size: xx-large;
+    cursor: pointer;
+}
+
+.historial {
+    cursor: pointer;
+    display: flex;
+    float: right;
+    padding: 6px;
+    border-radius: 25px;
+    width: 55px;
+}
+
+.importe {
+    font-size: large;
+    font-weight: 600;
+}
+
+.icono-historial {
+cursor: pointer;
+font-size: x-large;
+}

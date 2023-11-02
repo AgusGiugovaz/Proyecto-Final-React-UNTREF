@@ -2,15 +2,16 @@ import React from 'react';
 import { Link } from 'react-router-dom';
 import useHistorialContext from '../hooks/useHistorialContext';
 import '../estilos-css/Historial.css'
+import { FaClipboardList } from 'react-icons/fa';
 
 
 const Historial = () => {
     const { historial } = useHistorialContext();
 
     return (
-        <div>
-            <h1 className="center historial-consultas">Historial de Cotizaciones 📋</h1>
-            <div class="center div-cotizador">
+        <section>
+            <h1 className="center historial-consultas">Historial de Cotizaciones <FaClipboardList /></h1>
+            <section className="center contenedor-historial">
              <table>
                 <thead>
                     <tr>
@@ -33,13 +34,13 @@ const Historial = () => {
                     ))}
                 </tbody>
             </table>
-            <div className="center separador">
+            <section className="center separador">
                 <Link to={"/"}>
-                    <button className="button button-outline">Volver al Cotizador</button>
+                    <button className="boton-volver">Volver al Cotizador</button>
                 </Link>
-            </div>
-          </div>
-        </div>
+            </section>
+          </section>
+        </section>
     );
 }
 
