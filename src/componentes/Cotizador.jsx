@@ -1,6 +1,5 @@
 import React, { useState } from 'react';
 
-
 function Cotizador({ costoM2, factorPropiedad, factorUbicacion, metros2 }) {
   
     const cotizarPoliza = () => {

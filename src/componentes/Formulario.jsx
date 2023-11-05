@@ -134,9 +134,9 @@ function Formulario() {
 
   return (
     <>
-      <section className="contenedor-icono-historial">
+      <section className="historial">
         <Link to={"/historial"}>
-          <span title="Ver Historial" className="historial">
+          <span title="Ver Historial">
             <FaClipboardList className="icono-historial"/>
           </span>
         </Link>

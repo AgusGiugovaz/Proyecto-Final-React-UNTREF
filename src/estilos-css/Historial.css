@@ -45,13 +45,49 @@ button:hover {
     margin: auto;
     max-width: 1600px;
     background-color: white;
-    
     padding: 10px;
     border-color: whitesmoke;
     box-shadow: 26px 28px 15px -8px rgba(0,0,0,0.15);
     border-radius: 0.7rem;
 }
-td, th {
+
+@media (max-width: 768px) {
+    .contenedor-historial {
+        max-width: 90%;
+        padding: 10px;
+        overflow-x: auto; 
+    }
+}
+
+@media (max-width: 480px) {
+    .contenedor-historial {
+        max-width: 100%;
+        padding: 10px;
+        overflow-x: auto; 
+    }
+}
+
+ul {
+    list-style-type: none;
+    height: 50vh;
+    max-height: 50vh;
+    width: 70vh;
+    overflow-y: scroll;
+    display: flex;
+    flex-direction: column;
+    gap: 1rem;   
+}
+
+ul li {
+    display: flex;
+    flex-wrap: wrap;
+    align-items: center;
+    justify-content: center;
+    gap: .5rem;
+    padding: 1rem;
+}
+
+/*td, th {
     border-bottom: 0.1rem solid #e1e1e1;
     padding: 1.2rem 1.5rem;
 }
@@ -65,4 +101,4 @@ table {
     border-collapse: separate;
     text-indent: initial;
     border-spacing: 2px;
-}
+}*/

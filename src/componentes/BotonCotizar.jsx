@@ -4,7 +4,7 @@ import '../estilos-css/BotonCotizar.css'
 
 function BotonCotizar(props) {
     return (   
-        <button onClick={props.onClick} className="boton-cotizar">
+        <button type='button' onClick={props.onClick} className="boton-cotizar">
             Cotizar
         </button>
     );

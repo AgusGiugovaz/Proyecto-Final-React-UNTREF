@@ -1,0 +1,30 @@
+.presupuesto-lista {
+    border: 1px solid #ccc;
+    padding: 10px;
+    margin: 10px;
+    border-radius: 5px;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+    background-color: #f9f9f9;
+    text-align: left;
+  }
+
+  .propiedad {
+    text-transform: capitalize;
+    font-weight: bold;
+    text-decoration: underline;
+    margin: 5px 0;
+  }
+
+  .valor {
+    margin-left: 5px;
+  }
+  
+  .subrayado {
+    font-weight: bold;
+    text-decoration: underline;
+  }
+  
+  .subrayado::after {
+    content: "";
+    margin-right: 5px;
+  }
